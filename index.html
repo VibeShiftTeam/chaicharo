@@ -3,56 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>chaicharo鯖《猫ゲーム雑談鯖》公式サイト</title>
+    <title>chaicharo鯖</title>
+    <meta property="description" content="">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- ナビゲーションバー -->
-    <header>
-        <nav>
-            <div class="logo">chaicharo鯖</div>
-            <ul class="nav-links">
-                <li><a href="#home">ホーム</a></li>
-                <li><a href="#about">サーバー概要</a></li>
-                <li><a href="#news">お知らせ</a></li>
-                <li><a href="#join">参加</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav class="navbar">
+        <div class="logo">chaicharo鯖</div>
+        <div class="menu">
+            <a href="#">Home</a>
+            <a href="#features">Features</a>
+            <a href="#join">Join</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
 
-    <!-- Heroセクション -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>chaicharo鯖《猫ゲーム雑談鯖》</h1>
-            <p>楽しく活発なコミュニティへようこそ。</p>
-            <button class="cta-button">今すぐ参加</button>
-            <div class="server-info">
-                <p>現在のサーバー人数:</p>
-                <span id="member-count" class="count">Loading...</span>
+    <section class="hero">
+        <canvas class="hero-canvas"></canvas>
+        <h1>Welcome to chaicharo鯖</h1>
+        <p>ぜひサーバーに参加しよう！！</p>
+        <button class="cta">Join Now</button>
+    </section>
+
+    <section id="features" class="features">
+        <h2>サーバーの特徴</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <h3>即抜けが少ない、安定した参加率</h3>
+                <p>多くのサーバーでは即抜けが問題になりますが、このサーバーではそれがほとんど見られません。新規メンバーも比較的長く滞在する傾向があり、安心して活動を楽しめます。</p>
+            </div>
+            <div class="feature">
+                <h3>新規参加者に優しい雑談コミュニティ</h3>
+                <p>雑談チャンネルでは、多くのメンバーが新規の方にも親切に接してくれます。これにより、誰でも自然に会話に加わりやすい雰囲気が作られています。最近では雑談の活気が増し、ますます盛り上がっています。</p>
+            </div>
+            <div class="feature">
+                <h3>娯楽チャンネルでさらに楽しめる</h3>
+                <p>おみくじやAIチャットといった娯楽要素が充実しており、サーバー内での交流をさらに楽しいものにします。こうした機能により、人が集まりやすくなり、過疎化を防ぐ効果も期待できます。</p>
             </div>
         </div>
     </section>
-    <section id="about" class="about">
-        <h2>サーバー概要</h2>
-        <p>定期的なイベントも盛りだくさんでとても楽しい鯖です！</p>
-    </section>
-    <section id="news" class="news">
-        <h2>お知らせ</h2>
-        <div class="news-card">
-            <h3>イベント開催</h3>
-            <p>次回のイベントについての詳細。</p>
-        </div>
-        <div class="news-card">
-            <h3>メンテナンスのお知らせ</h3>
-            <p>サーバーの定期メンテナンス情報。</p>
-        </div>
+
+    <section id="join" class="join">
+        <h2>参加する準備はできましたか?</h2>
+        <p>私たちの素晴らしい Discord サーバーに参加するには、下のボタンをクリックしてください。</p>
+        <button class="btn">Join Discord</button>
     </section>
 
-    <!-- フッター -->
-    <footer>
-        <p>© 2024 サーバー名. All Rights Reserved.</p>
+    <footer class="footer">
+        <p>&copy; 2024 My Discord Server. Designed with passion.</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        const canvas = document.querySelector('.hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createParticles() {
+            particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 3 + 1,
+                    speedX: (Math.random() - 0.5) * 1.5,
+                    speedY: (Math.random() - 0.5) * 1.5
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#08d9d6';
+                ctx.fill();
+            });
+        }
+
+        function updateParticles() {
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+            });
+        }
+
+        function animate() {
+            drawParticles();
+            updateParticles();
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            initCanvas();
+            createParticles();
+        });
+
+        initCanvas();
+        createParticles();
+        animate();
+    </script>
 </body>
-</html>
